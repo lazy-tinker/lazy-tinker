@@ -1,0 +1,1 @@
+Create a script where one can pass GPU index, Core and Memory lock settings. This will essentially abstract nvidia-smi tool.
