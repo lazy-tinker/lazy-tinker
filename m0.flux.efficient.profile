@@ -1,2 +1,2 @@
 #FLUX overclock settings (most efficient)
-#Core offset 120, minimum PL
+# In HiveOS set Core offset to 120 and minimum PL for GPU
