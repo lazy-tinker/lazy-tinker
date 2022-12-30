@@ -6,9 +6,8 @@ then
   then
     head /profile/current.profile
     file=$(head /profile/current.profile)
-    exit 0
  else
-    echo No profile is set
+    echo No current profile is set
     exit 1
   fi
 fi      
