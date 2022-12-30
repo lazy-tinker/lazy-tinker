@@ -1,6 +1,6 @@
 if [ -z "$1" ]
 then
-  echo Profile expected
+  echo No profile is passed
 else
   echo $1 > current.profile
 fi
