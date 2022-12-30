@@ -13,4 +13,4 @@ then
 fi      
 
 echo 'Retrieving' $file
-wget -P /profile https://raw.githubusercontent.com/lazy-tinker/HiveOS_GPU_tunner/main/profile/$file
+wget -N -P /profile https://raw.githubusercontent.com/lazy-tinker/HiveOS_GPU_tunner/main/profile/$file
