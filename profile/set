@@ -1,0 +1,6 @@
+if [ -z "$1" ]
+then
+  echo Profile expected
+else
+  echo $1 > current.profile
+fi

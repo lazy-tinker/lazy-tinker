@@ -1,0 +1,8 @@
+if [ -z "$1" ]
+then
+  head current.profile
+  head $(head /profile/current.profile)
+else
+  echo $1
+  head /profile/$1
+fi

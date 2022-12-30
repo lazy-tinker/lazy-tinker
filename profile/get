@@ -1,0 +1,10 @@
+file=$1
+
+if [ -z "$1" ]
+then
+  head /profile/current.profile
+  file=$(head /profile/current.profile)
+fi      
+
+echo 'Retrieving' $file
+wget -O $file https://raw.githubusercontent.com/lazy-tinker/HiveOS_GPU_tunner/main/profile/$file
