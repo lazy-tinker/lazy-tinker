@@ -1,5 +1,5 @@
-mkdir /profile
-wget https://github.com/lazi-tinker/HiveOS_GPU_tunner/blob/master/profile/get -P /profile/get
-wget https://github.com/lazi-tinker/HiveOS_GPU_tunner/blob/master/profile/get -P /profile/set
-wget https://github.com/lazi-tinker/HiveOS_GPU_tunner/blob/master/profile/get -P /profile/show
+mkdir /'profile'
 
+wget https://raw.githubusercontent.com/lazy-tinker/HiveOS_GPU_tunner/main/profile/get -P /profile/get
+wget https://raw.githubusercontent.com/lazy-tinker/HiveOS_GPU_tunner/main/profile/get -P /profile/set
+wget https://raw.githubusercontent.com/lazy-tinker/HiveOS_GPU_tunner/main/profile/get -P /profile/show
