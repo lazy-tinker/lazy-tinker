@@ -1,5 +1,2 @@
-CLK_LOCK="0 0 0 0 0 0"
-CLK_OFFS="120 120 120 120 120 120"
-
-MEM_LOCK="0 0 0 0 0 0"
-MEM_OFFS="0 0 0 0 0 0"
+#FLUX overclock settings (most efficient)
+#Core offset 120, minimum PL
