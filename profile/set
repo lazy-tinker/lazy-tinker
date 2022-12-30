@@ -1,11 +1,13 @@
 if [ -z "$1" ]
 then
   echo No profile is passed
+  exit 0
 else
   if [ -f "$1" ]
   then
-    echo $1 > current.profile
+    echo $1 > /profile/current.profile
   else
     echo Profile does not exist
+    exit 0
   fi
 fi

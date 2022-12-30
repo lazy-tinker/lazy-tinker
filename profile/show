@@ -6,6 +6,7 @@ then
     head $(head /profile/current.profile)
   else
     echo No profile is set
+    exit 0
   fi
 else
   if [ -f "$1" ]
@@ -14,5 +15,6 @@ else
     head /profile/$1
   else
     echo Profile with name '$1' does not exist
+    exit 0
   fi
 fi

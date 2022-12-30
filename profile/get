@@ -8,9 +8,9 @@ then
     file=$(head /profile/current.profile)
   else
     echo No profile is set
-    exit 1
+    exit 0
   fi
 fi      
 
 echo 'Retrieving' $file
-wget -O $file https://raw.githubusercontent.com/lazy-tinker/HiveOS_GPU_tunner/main/profile/$file
+wget -P /profile https://raw.githubusercontent.com/lazy-tinker/HiveOS_GPU_tunner/main/profile/$file
