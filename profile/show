@@ -2,15 +2,15 @@ if [ -z "$1" ]
 then
   if [ -f "/profile/current.profile" ]
   then
-    head current.profile
-    head $(head /profile/current.profile)
+    head /profile/current.profile
+    head /profile/$(head /profile/current.profile)
     exit 0
   else
     echo No profile is set
     exit 1
   fi
 else
-  if [ -f "$1" ]
+  if [ -f "/profile/$1" ]
   then
     echo $1
     head /profile/$1

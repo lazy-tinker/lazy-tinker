@@ -3,7 +3,9 @@ mkdir /profile
 wget -N -P /profile https://raw.githubusercontent.com/lazy-tinker/HiveOS_GPU_tunner/main/profile/get
 wget -N -P /profile https://raw.githubusercontent.com/lazy-tinker/HiveOS_GPU_tunner/main/profile/set
 wget -N -P /profile https://raw.githubusercontent.com/lazy-tinker/HiveOS_GPU_tunner/main/profile/show
+wget -N -P /profile https://raw.githubusercontent.com/lazy-tinker/HiveOS_GPU_tunner/main/profile/apply
 
 chmod +x /profile/get
 chmod +x /profile/set
 chmod +x /profile/show
+chmod +x /profile/apply
