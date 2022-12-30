@@ -2,5 +2,10 @@ if [ -z "$1" ]
 then
   echo No profile is passed
 else
-  echo $1 > current.profile
+  if [ -f "$1" ]
+  then
+    echo $1 > current.profile
+  else
+    echo Profile does not exist
+  fi
 fi
