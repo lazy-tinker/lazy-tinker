@@ -15,5 +15,12 @@ fi
 echo 'Retrieving' $file
 wget -N -P /profile https://raw.githubusercontent.com/lazy-tinker/HiveOS_GPU_tunner/main/profile/$file
 
-head /profile/$file -n 20
-echo
+if [ -f "/profile/$file" ]
+then
+  head /profile/$file -n 20
+  echo
+else
+  echo Profile not found
+  exit 1
+fi
+
