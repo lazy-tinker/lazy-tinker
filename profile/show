@@ -3,7 +3,7 @@ then
   if [ -f "/profile/current.profile" ]
   then
     head /profile/current.profile
-    head /profile/$(head /profile/current.profile)
+    head /profile/$(head /profile/current.profile) -n 20
     exit 0
   else
     echo No profile is set
@@ -13,7 +13,7 @@ else
   if [ -f "/profile/$1" ]
   then
     echo $1
-    head /profile/$1
+    head /profile/$1 -n 20
     exit 0
   else
     echo Profile with name '$1' does not exist
