@@ -1,0 +1,44 @@
+# In the beginning we will work only with the first GPU
+# Once we are ready with the tunning, we can implement the same for all the GPUs in the rig
+
+gpu_id=2
+
+echo Tunning GPU \#$gpu_id; nvidia-smi -i $gpu_id --query-gpu=name,clocks.max.sm,power.min_limit,power.max_limit --format=csv,noheader
+
+# TODO: itterate the core clock rage from upper to lower
+
+current_clock=0
+current_efficiency=0
+previous_efficiency=0
+
+log_row=$(( 7 - $gpu_id ))
+
+$current_clock=1200
+
+while :
+do
+  echo ----------------------------
+  echo Current clock $current_clock
+
+  nvidia-smi -i $gpu_id -lgc=$current_clock
+
+# TODO: Take samples of the efficiency every 10 minutes and compare current to the previous sample, continue if it's lower
+
+  for i in {1..10}
+  do
+    sleep 60
+    $current_efficiency=$(miner log | tail -n $log_row | head -n 1 | tail -c 7)
+    echo Sample $i Current efficiency: $current_efficiency
+  done
+
+  if [ $current_efficiency -lt $previous_efficiency ]
+  then
+    current_clock=$(( $current_clock - 15 ))
+  else
+    break
+  fi
+
+  echo Best efficiency found: $current_efficiency Sol/s at $current_clock Mhz
+done
+
+
