@@ -17,27 +17,30 @@ current_clock=1200
 
 while :
 do
-  echo ----------------------------
+  echo --------------------------------------------------------
   
-  nvidia-smi -i $gpu_id -lgc=$current_clock
+  nvidia-smi -i $gpu_id -lgc $current_clock
 
 # TODO: Take samples of the efficiency every 10 minutes and compare current to the previous sample, continue if it's lower
 
   for i in {1..10}
   do
     sleep 60
-    current_efficiency=$(miner log | tail -n $log_row | head -n 1 | tail -c 5)
-    echo Sample \#$i - $(miner log | tail -n $log_row | head -n 1)
+    current_efficiency=$(miner log | tail -n $log_row | head -n 1 | tail -c 5 | head -c +3)
+    echo Sample \#$i - $(miner log | tail -n $log_row | head -n 1 | tail -c +4)
   done
 
   if [ $current_efficiency -gt $previous_efficiency ]
   then
-    current_clock=$(( $current_clock - 15 ))
+    current_clock=$(( current_clock - 15 ))
   else
     break
   fi
-
-  echo Best efficiency found: $current_efficiency Sol/s at $current_clock Mhz
 done
+
+echo Best efficiency found: $current_efficiency Sol/s at $current_clock Mhz
+
+#TODO: Revert back to the original core clock
+/profile/apply
 
 
