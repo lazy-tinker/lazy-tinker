@@ -13,13 +13,12 @@ previous_efficiency=0
 
 log_row=$(( 7 - $gpu_id ))
 
-$current_clock=1200
+current_clock=1200
 
 while :
 do
   echo ----------------------------
-  echo Current clock $current_clock
-
+  
   nvidia-smi -i $gpu_id -lgc=$current_clock
 
 # TODO: Take samples of the efficiency every 10 minutes and compare current to the previous sample, continue if it's lower
@@ -27,11 +26,11 @@ do
   for i in {1..10}
   do
     sleep 60
-    $current_efficiency=$(miner log | tail -n $log_row | head -n 1 | tail -c 7)
-    echo Sample $i Current efficiency: $current_efficiency
+    current_efficiency=$(miner log | tail -n $log_row | head -n 1 | tail -c 5)
+    echo Sample \#$i - $(miner log | tail -n $log_row | head -n 1)
   done
 
-  if [ $current_efficiency -lt $previous_efficiency ]
+  if [ $current_efficiency -gt $previous_efficiency ]
   then
     current_clock=$(( $current_clock - 15 ))
   else

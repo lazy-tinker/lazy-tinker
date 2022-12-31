@@ -1,6 +1,7 @@
 if [ -f "/profile/current.profile" ]
 then
   head /profile/$(head /profile/current.profile -n 20) | sh
+  /profile/show
   exit 0
 else
   echo No current profile is set
