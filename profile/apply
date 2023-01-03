@@ -1,5 +1,11 @@
 if [ -f "/profile/current.profile" ]
 then
+  if [ "$1" = "--boot" ] # pass --boot when you call apply on HiveOS boot
+  then
+    sleep 10 # Sleep for 10 seconds to give X server time to fully load 
+  fi
+
+  # Execute the contents of current.profile
   head /profile/$(head /profile/current.profile -n 20) | sh
   /profile/show
   exit 0

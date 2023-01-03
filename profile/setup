@@ -5,6 +5,7 @@ wget -N -P /profile https://raw.githubusercontent.com/lazy-tinker/HiveOS_GPU_tun
 wget -N -P /profile https://raw.githubusercontent.com/lazy-tinker/HiveOS_GPU_tunner/main/profile/show
 wget -N -P /profile https://raw.githubusercontent.com/lazy-tinker/HiveOS_GPU_tunner/main/profile/apply
 wget -N -P /profile https://raw.githubusercontent.com/lazy-tinker/HiveOS_GPU_tunner/main/profile/tune
+wget -N -P /profile https://raw.githubusercontent.com/lazy-tinker/HiveOS_GPU_tunner/main/profile/example.profile
 
 chmod +x /profile/get
 chmod +x /profile/set

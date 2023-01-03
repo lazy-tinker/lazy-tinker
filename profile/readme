@@ -1,0 +1,27 @@
+How to use:
+
+1. SSH into HiveOS (via Putty or "Hive Shell Start")
+
+2. Get latest code:
+wget https://raw.githubusercontent.com/lazy-tinker/HiveOS_GPU_tunner/main/profile/setup -O - | sh
+
+3. The code is stored in /profile directory
+
+4. Rename the example.profile to something meaningful like "30_series.FLUX.efficient.profile"
+mv example.profile 30_series.FLUX.efficient.profile
+
+5. Change the OC settings
+nano 30_series.FLUX.efficient.profile
+
+6. Set the current profile
+/profile/set 3060rig.FLUX.efficient.profile
+
+7. Apply the current profile
+/profile/apply
+
+# To apply the OC setting on HiveOS boot do the following
+8. Edit autostart file
+nano /etc/xdg/openbox/autostart
+
+9. Add the below line at the end of autostart file
+/profile/apply --boot & # Apply current OS profile for nvidia cards
