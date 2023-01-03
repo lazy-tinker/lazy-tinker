@@ -4,6 +4,7 @@ then
   then
     head /profile/current.profile
     head /profile/$(head /profile/current.profile) -n 20
+    echo ""    
     exit 0
   else
     echo No profile is set
@@ -14,6 +15,7 @@ else
   then
     echo $1
     head /profile/$1 -n 20
+    echo ""    
     exit 0
   else
     echo Profile with name '$1' does not exist
