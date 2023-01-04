@@ -10,10 +10,10 @@ wget https://raw.githubusercontent.com/lazy-tinker/HiveOS_GPU_tunner/main/profil
 4. Rename the example.profile to something meaningful like "30_series.FLUX.efficient.profile"
 mv example.profile 30_series.FLUX.efficient.profile
 
-5. Change the OC settings
+5. Change the OC settings for your rig
 nano 30_series.FLUX.efficient.profile
 
-6. Set the current profile
+6. Set the profile as current
 /profile/set 3060rig.FLUX.efficient.profile
 
 7. Apply the current profile
@@ -24,4 +24,4 @@ nano 30_series.FLUX.efficient.profile
 nano /etc/xdg/openbox/autostart
 
 9. Add the below line at the end of autostart file
-/profile/apply --boot & # Apply current OS profile for nvidia cards
+/profile/apply --boot & # Apply current OC profile for nvidia cards
