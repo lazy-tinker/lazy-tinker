@@ -6,7 +6,8 @@ then
   fi
 
   # Execute the contents of current.profile
-  head /profile/$(head /profile/current.profile -n 50) | sh
+  file=$(head /profile/current.profile -n 1)
+  head /profile/$file -n 50 | sh
   /profile/show
   exit 0
 else

@@ -2,8 +2,9 @@ if [ -z "$1" ]
 then
   if [ -f "/profile/current.profile" ]
   then
-    head /profile/current.profile
-    head /profile/$(head /profile/current.profile) -n 50
+    file=$(head /profile/current.profile -n 1)
+    echo $file
+    head /profile/$file -n 50
     echo ""    
     exit 0
   else
@@ -13,8 +14,9 @@ then
 else
   if [ -f "/profile/$1" ]
   then
-    echo $1
-    head /profile/$1 -n 50
+    file=$1
+    echo $file
+    head /profile/$file -n 50
     echo ""    
     exit 0
   else

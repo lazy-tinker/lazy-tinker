@@ -4,8 +4,8 @@ if [ -z "$1" ]
 then
   if [ -f "/profile/current.profile" ]
   then
-    head /profile/current.profile
-    file=$(head /profile/current.profile)
+    file=$(head /profile/current.profile -n 1)
+    head /profile/$file -n 50
  else
     echo No current profile is set
     exit 1
