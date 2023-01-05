@@ -3,7 +3,7 @@ then
   if [ -f "/profile/current.profile" ]
   then
     head /profile/current.profile
-    head /profile/$(head /profile/current.profile) -n 20
+    head /profile/$(head /profile/current.profile) -n 50
     echo ""    
     exit 0
   else
@@ -14,7 +14,7 @@ else
   if [ -f "/profile/$1" ]
   then
     echo $1
-    head /profile/$1 -n 20
+    head /profile/$1 -n 50
     echo ""    
     exit 0
   else

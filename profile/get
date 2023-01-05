@@ -17,7 +17,7 @@ wget -N -P /profile https://raw.githubusercontent.com/lazy-tinker/HiveOS_GPU_tun
 
 if [ -f "/profile/$file" ]
 then
-  head /profile/$file -n 20
+  head /profile/$file -n 50
   echo
 else
   echo Profile not found
