@@ -7,6 +7,9 @@ then
 
   # Execute the contents of current.profile
   file=$(head /profile/current.profile -n 1)
+
+  # TODO: Remove the execution of the whole file content (very dangerous with root access)  
+  # Read just the values and call nvidia-info and nvidia-oc with them as arguments.
   head /profile/$file -n 50 | sh
   /profile/show
   exit 0
