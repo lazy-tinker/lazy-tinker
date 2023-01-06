@@ -10,7 +10,7 @@ then
 
   # TODO: Remove the execution of the whole file content (very dangerous with root access)  
   # Read just the values and call nvidia-info and nvidia-oc with them as arguments.
-  head /profile/$file -n 50 | sh
+  cat /profile/$file | sh
   /profile/show
   exit 0
 else

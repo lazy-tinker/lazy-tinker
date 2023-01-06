@@ -4,7 +4,7 @@ then
   then
     file=$(head /profile/current.profile -n 1)
     echo $file
-    head /profile/$file -n 50
+    cat /profile/$file
     echo ""    
     exit 0
   else
@@ -16,7 +16,7 @@ else
   then
     file=$1
     echo $file
-    head /profile/$file -n 50
+    cat /profile/$file
     echo ""    
     exit 0
   else
