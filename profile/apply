@@ -5,11 +5,13 @@ then
     sleep 10 # Sleep for 10 seconds to give X server time to fully load 
   fi
 
-  # Execute the contents of current.profile
+  # Read the name of the profile set as current
   file=$(head /profile/current.profile -n 1)
 
   # TODO: Remove the execution of the whole file content (very dangerous with root access)  
   # Read just the values and call nvidia-info and nvidia-oc with them as arguments.
+
+  # Execute the contents of the.profile
   cat /profile/$file | sh
   /profile/show
   exit 0
