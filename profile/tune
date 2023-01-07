@@ -4,7 +4,8 @@
 gpu_id=2
 
 echo Tunning GPU \#$gpu_id; nvidia-smi -i $gpu_id --query-gpu=name,clocks.max.sm,power.min_limit,power.max_limit --format=csv,noheader
-echo Tunning GPU \#$gpu_id; nvidia-smi -i $gpu_id --query-gpu=name,clocks.max.sm,power.min_limit,power.max_limit --format=csv,noheader >> tunning.log
+
+echo nvidia-smi -i $gpu_id --query-gpu=name,clocks.max.sm,power.min_limit,power.max_limit --format=csv,noheader >> tunning.log
 
 current_clock=0
 current_efficiency=0
@@ -26,16 +27,16 @@ do
     sleep 60
 
     #stats
-    curl --silent localhost:20000 -X '{"id":"0", "method":"getstat"}' | jq -c '.result[2] | {gpuid: .gpuid, name: .name, clock: .gpu_clock_core_max, power: .gpu_power_usage, efficiency0: (.speed_sps0 / .gpu_power_usage), efficiency: (.speed_sps / .gpu_power_usage), efficiency0: (.speed_sps0 / .gpu_power_usage) }'
+    curl --silent localhost:20000 -X '{"id":"0", "method":"getstat"}' | jq -c '.result['$gpu_id'] | {gpuid: .gpuid, name: .name, clock: .gpu_clock_core_max, power: .gpu_power_usage, efficiency0: (.speed_sps0 / .gpu_power_usage), efficiency: (.speed_sps / .gpu_power_usage), efficiency0: (.speed_sps0 / .gpu_power_usage) }'
   done
 
   echo $(date)
   
   # Make the efficiency an integer (eg 0.5673453 becomes 5673)
-  current_efficiency=$(curl --silent localhost:20000 -X '{"id":"0", "method":"getstat"}' | jq '.result[$gpu_id] | (.speed_sps / .gpu_power_usage)*10000' | { read -r var; echo "$var/1"; } | bc)
+  current_efficiency=$(curl --silent localhost:20000 -X '{"id":"0", "method":"getstat"}' | jq '.result['$gpu_id'] | (.speed_sps / .gpu_power_usage)*10000' | { read -r var; echo "$var/1"; } | bc)
 
   echo $(date) >> tunning.log
-  curl --silent localhost:20000 -X '{"id":"0", "method":"getstat"}' | jq -c '.result[2] | {gpuid: .gpuid, name: .name, clock: .gpu_clock_core_max, power: .gpu_power_usage, efficiency0: (.speed_sps0 / .gpu_power_usage), efficiency: (.speed_sps / .gpu_power_usage), efficiency0: (.speed_sps0 / .gpu_power_usage) }' >> tunning.log
+  curl --silent localhost:20000 -X '{"id":"0", "method":"getstat"}' | jq -c '.result['$gpu_id'] | {gpuid: .gpuid, name: .name, clock: .gpu_clock_core_max, power: .gpu_power_usage, efficiency0: (.speed_sps0 / .gpu_power_usage), efficiency: (.speed_sps / .gpu_power_usage), efficiency0: (.speed_sps0 / .gpu_power_usage) }' >> tunning.log
   
 
   if [ $current_efficiency -gt $previous_efficiency ]
