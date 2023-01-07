@@ -11,9 +11,7 @@ current_clock=0
 current_efficiency=0
 previous_efficiency=0
 
-log_row=$(( 7 - $gpu_id ))
-
-current_clock=1200
+current_clock=1305
 
 while :
 do
@@ -26,16 +24,25 @@ do
   for i in {1..10}
   do
     sleep 60
-    current_efficiency=$(miner log | tail -n $log_row | head -n 1 | tail -c 5 | head -c +3)
-    echo Sample \#$i - $(miner log | tail -n $log_row | head -n 1 | tail -c +4)
+
+    #stats
+    curl --silent localhost:20000 -X '{"id":"0", "method":"getstat"}' | jq -c '.result[2] | {gpuid: .gpuid, name: .name, clock: .gpu_clock_core_max, power: .gpu_power_usage, efficiency0: (.speed_sps0 / .gpu_power_usage), efficiency: (.speed_sps / .gpu_power_usage), efficiency0: (.speed_sps0 / .gpu_power_usage) }'
   done
+
+  echo $(date)
+  
+  # Make the efficiency an integer (eg 0.5673453 becomes 5673)
+  current_efficiency=$(curl --silent localhost:20000 -X '{"id":"0", "method":"getstat"}' | jq '.result[$gpu_id] | (.speed_sps / .gpu_power_usage)*10000' | { read -r var; echo "$var/1"; } | bc)
 
   if [ $current_efficiency -gt $previous_efficiency ]
   then
     current_clock=$(( current_clock - 15 ))
   else
+    echo "Best efficiency found."
     break
   fi
+
+  previous_efficiency=$current_efficiency
 done
 
 echo Best efficiency found: $current_efficiency Sol/s at $current_clock Mhz

@@ -8,6 +8,12 @@ then
   # Read the name of the profile set as current
   file=$(head /profile/current.profile -n 1)
 
+  if [ ! -f "/profile/$file" ]
+  then
+    echo Profile does not exist
+    exit 1
+  fi
+
   # TODO: Remove the execution of the whole file content (very dangerous with root access)  
   # Read just the values and call nvidia-info and nvidia-oc with them as arguments.
 
