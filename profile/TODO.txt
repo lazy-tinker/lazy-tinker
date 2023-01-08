@@ -1,0 +1,6 @@
+Steps to find the best efficiency (per GPU and algo)
+1. Lock the appropriate memory clock speed (nvidia-smi -q -d SUPPORTED_CLOCKS) based on the algorithm memory usage.
+2. Change the Locked core clock speed (nvidia-smi -lgc), starting from higher frequency (how high?) and lowering by 15 Mhz
+3. Change the Offset core clock speed (nvidia-oc profile), starting from 0, raising by 15 Mhz until voltage stops getting lower (nvidia-smi -q -d VOLTAGE).
+4. In JSON array save every tested Locked core clock speed along with the efficiency (HM/s/W).
+5. Draw a line char with Efficiency (HM/s/W) on Y and Locked core clock speed on X.
