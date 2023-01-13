@@ -27,8 +27,11 @@ do
   do
     sleep 60
 
-    #stats
-    curl --silent localhost:20000 -X '{"id":"0", "method":"getstat"}' | jq -c '.result['$gpu_id'] | {gpuid: .gpuid, name: .name, clock: .gpu_clock_core_max, speed_is: .speed_is, power: .gpu_power_usage, efficiency: (.speed_is * 2 / .gpu_power_usage) }'
+    #stats for MiniZ
+    curl --silent localhost:20000 -X '{"id":"0", "method":"getstat"}' | jq -c '.result['$gpu_id'] | {gpuid: .gpuid, name: .name, clock: .gpu_clock_core_max, Hash: (.speed_is * 2), power: .gpu_power_usage, efficiency: (.speed_is * 2 / .gpu_power_usage) }'
+
+    #stats for Lolminer
+    #curl --silent localhost:44444 | jq -c '{gpuid: .Workers['$gpu_id'].Index, name: .Workers['$gpu_id'].Name, clock: .Workers['$gpu_id'].CCLK, Hash: .Algorithms[0].Worker_Performance['$gpu_id'], power: .Workers['$gpu_id'].Power, efficiency: (.Algorithms[0].Worker_Performance['$gpu_id'] / .Workers['$gpu_id'].Power) }'
   done
 
   echo $(date)
