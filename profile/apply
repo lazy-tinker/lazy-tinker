@@ -19,7 +19,11 @@ then
 
   # Execute the contents of the.profile
   cat /profile/$file | sh >> /dev/null
-  nvidia-info
+  if [ "$1" != "--boot" ] # if not boot, display overclock settings
+  then
+    nvidia-info
+  fi
+
   exit 0
 else
   echo No current profile is set
