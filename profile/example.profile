@@ -1,9 +1,7 @@
-# Lock core clock by GPU index (0 - first)
-nvidia-smi -i 0 -lgc 1425
-nvidia-smi -i 1 -lgc 1440
-nvidia-smi -i 2 -lgc 1110
-nvidia-smi -i 3 -lgc 1410
-nvidia-smi -i 4 -lgc 1320
+# Lock all GPU core clocks at 1440 Mhz
+# Set all GPU core offset at 400 Mhz
+# Lock all GPU memory clocks at 5001 Mhz
+nvtool --setclocks 1440 --setcoreoffset 250 --setmem 5001
 
-# Lock memory clock of all GPUs
-nvidia-smi -lmc 5000
+# Lock only second GPU core clocks at 1470 Mhz
+nvtool -i 1 --setclocks 1470
