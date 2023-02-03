@@ -10,4 +10,4 @@ echo 'CLOCK="-3000"' > /hive-config/nvidia-oc.conf
 /hive/sbin/nvidia-oc
 
 # This algo allows for extreme Core clock overclock, which undervolts the GPU and lowers the power consumption dramatically
-nvtool -i --setcoreoffset 400
+nvtool -i --setcoreoffset 300
