@@ -11,6 +11,7 @@ wget https://raw.githubusercontent.com/lazy-tinker/HiveOS_GPU_tunner/main/profil
 mv example.profile 30_series.FLUX.efficient.profile
 
 5. Change the OC settings for your rig
+IMPORTANT: You should NOT use any of the OC settings in HiveOS (leave them blank, only use Auto-Fan settings)
 nano 30_series.FLUX.efficient.profile
 
 6. Set the profile as current
