@@ -1,22 +1,13 @@
 # KASPA overclock settings (most efficient)
 
-# IMPORTANT: Set offsets first (Steps 1-5) because calling nvidia-oc overwrites the nvidia-smi lock settings
+# IMPORTANT: Call nvidia-oc first because it overwrites the nvidia-smi or nvtool lock settings
 # ----------------------------------------------------------------------------------------------------------
 
-# 1. Backup the original HiveOS nvidia-oc profile
-mv /hive-config/nvidia-oc.conf /hive-config/nvidia-oc.conf.bak
+# Since only 30 Series support locking Memory clock, this is the only way for 10,16 and 20 Series to set Memory clock to 810 Mhz
+echo 'CLOCK="-3000"' > /hive-config/nvidia-oc.conf  
 
-# 2. Generate new temporary nvidia-oc profile
-echo 'CLOCK="-3000"' >> /hive-config/nvidia-oc.conf  # Since 16 and 20 Series don't support Memory clock lock, this is another way to set Memory clock to 810 Mhz
-
-# 3. Apply the new nvidia-oc profile
+# Apply the new nvidia-oc profile
 /hive/sbin/nvidia-oc
-
-# 4. Delete the temporary nvidia-oc profile
-rm /hive-config/nvidia-oc.conf
-
-# 5. Restore the original nvidia-oc profile
-mv /hive-config/nvidia-oc.conf.bak /hive-config/nvidia-oc.conf
 
 nvtool -i 0 --setclocks 1350 --setcoreoffset 200 --setmem 810 --setmemoffset 0  # 3080
 nvtool -i 1 --setclocks 1005  # 1660
