@@ -13,7 +13,7 @@ nvtool -i 0 --setclocks 2100 --setcoreoffset 225 --setfan 40 --setpl 100 --setme
 nvtool -i 1 --setclocks 2100 --setcoreoffset 180 --setfan 65 --setpl 70   # 1660
 nvtool -i 2 --setclocks 2100 --setcoreoffset 180 --setfan 45 --setpl 70   # 1660
 nvtool -i 3 --setclocks 2100 --setcoreoffset 180 --setfan 40 --setpl 70   # 1660 Ti
-nvtool -i 4 --setclocks 2100 --setcoreoffset 180 --setfan 45 --setpl 70   # 1660 Ti
+nvtool -i 4 --setclocks 2100 --setcoreoffset 180 --setfan 60 --setpl 70   # 1660 Ti
 nvtool -i 5 --setclocks 2100 --setcoreoffset 100 --setfan 60 --setpl 125  # 2080 S
 nvtool -i 6 --setclocks 2100 --setcoreoffset 100 --setfan 30 --setpl 125  # 2080 S
 nvtool -i 7 --setclocks 2100 --setcoreoffset 100 --setfan 40 --setpl 100  # 2080 Ti
