@@ -100,7 +100,14 @@ paid_power = [
 
 settings = paid_power if args[1] == "paid" else free_power
 
+profits = []
+
 for algo in settings:
-	get_daily_profit(*algo)
+	profits.append(get_daily_profit(*algo))
+
+print()
+
+for profit in profits:
+	print(f"{profit:.12f}")
 
 print()
