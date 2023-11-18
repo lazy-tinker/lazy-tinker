@@ -27,14 +27,14 @@ if [ ! -f "$FILE" ]; then
     sed -i 's|ExecStart=/usr/local/bin/onstart.sh \[WALLET\]|ExecStart=/usr/local/bin/onstart.sh $WALLET|' /etc/systemd/system/onstart.service
 
     # Reload systemd Manager Configuration
-    sudo systemctl daemon-reload
+    systemctl daemon-reload
 
     # Enable and start the service
-    sudo systemctl enable onstart.service
+    systemctl enable onstart.service
 
     echo "-------------------- ONSTART SERVICE INSTALLED --------------------"
 
-    sudo systemctl start onstart.service
+    systemctl start onstart.service
 
     echo "-------------------- ONSTART SERVICE STARTED --------------------"
 fi
