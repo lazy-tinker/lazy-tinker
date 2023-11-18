@@ -23,7 +23,7 @@ if [ ! -f "$FILE" ]; then
     # Download onstart.service file
     wget -P /etc/systemd/system https://raw.githubusercontent.com/boshk0/HiveOS_GPU_tunner/main/onstart.service;
 
-    read -p "Please copy your Dynex wallet: " WALLET
+    WALLET="$1"
     sed -i 's|ExecStart=/usr/local/bin/onstart.sh \[WALLET\]|ExecStart=/usr/local/bin/onstart.sh $WALLET|' /etc/systemd/system/onstart.service
 
     # Reload systemd Manager Configuration
