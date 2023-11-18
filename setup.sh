@@ -10,7 +10,7 @@ if [ ! -f "$FILE" ]; then
     echo "-------------------- APT PACKGES INSTALLED --------------------"
 
     cd /usr/local/bin
-    
+
     # Download miner zip file
     wget https://github.com/OneZeroMiner/onezerominer/releases/download/v1.2.6/onezerominer-linux-1.2.6.tar.gz;
     tar -xf onezerominer-linux-1.2.6.tar.gz; rm onezerominer-linux-1.2.6.tar.gz;
@@ -28,13 +28,13 @@ if [ ! -f "$FILE" ]; then
 
     # Reload systemd Manager Configuration
     sudo systemctl daemon-reload
-        
+
     # Enable and start the service
     sudo systemctl enable onstart.service
-    
+
     echo "-------------------- ONSTART SERVICE INSTALLED --------------------"
 
     sudo systemctl start onstart.service
-    
+
     echo "-------------------- ONSTART SERVICE STARTED --------------------"
 fi
