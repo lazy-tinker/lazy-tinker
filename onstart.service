@@ -4,7 +4,7 @@ After=graphical.target
 
 [Service]
 Type=oneshot
-ExecStart=/root/onstart.sh [WALLET]
+ExecStart=/usr/local/bin/onstart.sh [WALLET]
 RemainAfterExit=yes
 
 [Install]
