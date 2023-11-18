@@ -1,0 +1,11 @@
+[Unit]
+Description=Excutes onstart.sh script on system boot
+After=graphical.target
+
+[Service]
+Type=oneshot
+ExecStart=/root/onstart.sh [WALLET]
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
