@@ -9,6 +9,8 @@ if [ ! -f "$FILE" ]; then
 
     echo "-------------------- APT PACKGES INSTALLED --------------------"
 
+    cd /usr/local/bin
+
     # Cleanup old versions
     rm onezerominer-linux/*
     rmdir onezerominer-linux
@@ -19,8 +21,6 @@ if [ ! -f "$FILE" ]; then
     rm /etc/systemd/system/onstart.service
 
     echo "-------------------- PREVIOUS INSTALATIONS REMOVED --------------------"
-
-    cd /usr/local/bin
 
     # Download miner zip file
     wget https://github.com/OneZeroMiner/onezerominer/releases/download/v1.2.6/onezerominer-linux-1.2.6.tar.gz
