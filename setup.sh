@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Check if the first argument is empty
+if [ -z "$1" ]; then
+    echo "Error: The first argument is the wallet address and is required!"
+    exit 1
+fi
+
 FILE="/usr/local/bin/onstart.sh"
 
 # Check if th file does not exists
