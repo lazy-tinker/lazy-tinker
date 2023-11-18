@@ -27,6 +27,3 @@ if ! tmux has-session -t miner 2>/dev/null; then
     tmux send-keys -t miner "bash onstart.sh" C-m
     echo "-------------------- TMUX MINER SESSION STARTED --------------------"
 fi
-
-# Since this script is ran from the ENTRYPOINT, the main process process need to be blocked
-sleep infinity
