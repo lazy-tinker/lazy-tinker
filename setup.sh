@@ -35,7 +35,7 @@ if [ ! -f "$FILE" ]; then
     wget --no-cache -P /etc/systemd/system https://raw.githubusercontent.com/boshk0/HiveOS_GPU_tunner/main/onstart.service
 
     WALLET="$1"
-    sed -i 's|ExecStart=/usr/local/bin/onstart.sh \[WALLET\]|ExecStart=/usr/local/bin/onstart.sh $WALLET|' /etc/systemd/system/onstart.service
+    sed -i "s|ExecStart=/usr/local/bin/onstart.sh \[WALLET\]|ExecStart=/usr/local/bin/onstart.sh $WALLET|" /etc/systemd/system/onstart.service
 
     # Reload systemd Manager Configuration
     systemctl daemon-reload
