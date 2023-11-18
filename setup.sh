@@ -8,15 +8,17 @@ if [ ! -f "$FILE" ]; then
     apt update; apt install wget nano tmux less xz-utils systemctl -y;
 
     echo "-------------------- APT PACKGES INSTALLED --------------------"
+
+    cd /usr/local/bin
     
     # Download miner zip file
-    wget -P /usr/local/bin https://github.com/OneZeroMiner/onezerominer/releases/download/v1.2.6/onezerominer-linux-1.2.6.tar.gz;
-    tar -xf /usr/local/bin/onezerominer-linux-1.2.6.tar.gz; rm /usr/local/bin/onezerominer-linux-1.2.6.tar.gz;
+    wget https://github.com/OneZeroMiner/onezerominer/releases/download/v1.2.6/onezerominer-linux-1.2.6.tar.gz;
+    tar -xf onezerominer-linux-1.2.6.tar.gz; rm onezerominer-linux-1.2.6.tar.gz;
 
     echo "-------------------- MINER INSTALLED --------------------"
 
     # Download onstart.sh file
-    wget -P /usr/local/bin https://raw.githubusercontent.com/boshk0/HiveOS_GPU_tunner/main/onstart.sh; chmod +x /usr/local/bin/onstart.sh
+    wget https://raw.githubusercontent.com/boshk0/HiveOS_GPU_tunner/main/onstart.sh; chmod +x onstart.sh
 
     # Download onstart.service file
     wget -P /etc/systemd/system https://raw.githubusercontent.com/boshk0/HiveOS_GPU_tunner/main/onstart.service;
