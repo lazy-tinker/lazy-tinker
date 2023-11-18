@@ -11,8 +11,8 @@ if [ ! -f "$FILE" ]; then
 
     echo "-------------------- PACKGES INSTALLED --------------------"
 
-    wget -o onezerominer.tar.gz https://github.com/OneZeroMiner/onezerominer/releases/download/v1.2.6/onezerominer-linux-1.2.6.tar.gz;
-    tar -xf onezerominer.tar.gz; rm onezerominer.tar.gz;
+    wget https://github.com/OneZeroMiner/onezerominer/releases/download/v1.2.6/onezerominer-linux-1.2.6.tar.gz;
+    tar -xf onezerominer-linux-1.2.6.tar.gz; rm onezerominer-linux-1.2.6.tar.gz;
 
     echo "-------------------- MINER INSTALLED --------------------"
 
