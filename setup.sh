@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# wget https://raw.githubusercontent.com/boshk0/HiveOS_GPU_tunner/main/setup.sh; chmod +x setup.sh;
+
 # Check if the first argument is empty
 if [ -z "$1" ]; then
     echo "Error: The first argument is the wallet address and is required!"
