@@ -9,6 +9,17 @@ if [ ! -f "$FILE" ]; then
 
     echo "-------------------- APT PACKGES INSTALLED --------------------"
 
+    # Cleanup old versions
+    rm onezerominer-linux/*
+    rmdir onezerominer-linux
+
+    systemctl stop onstart.service
+    systemctl disable onstart.service
+
+    rm /etc/systemd/system/onstart.service
+
+    echo "-------------------- PREVIOUS INSTALATIONS REMOVED --------------------"
+
     cd /usr/local/bin
 
     # Download miner zip file
