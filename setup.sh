@@ -2,18 +2,21 @@
 
 # wget https://raw.githubusercontent.com/boshk0/HiveOS_GPU_tunner/main/setup.sh; chmod +x setup.sh;
 
-# Check if the first argument is empty
-if [ -z "$1" ]; then
-    echo "Error: The first argument is the wallet address and is required!"
-    exit 1
-fi
+FILE="/opt/nvidia/entrypoint.d/200-custom_scripts.sh"
 
-FILE="/usr/local/bin/onstart.sh"
-
-# Check if th file does not exists
+# Check if the file hasn't already been set
 if [ ! -f "$FILE" ]; then
+
+    # Check if the first argument is empty
+    if [ -z "$1" ]; then
+        echo "Error: The first argument is the wallet address and is required!"
+        exit 1
+    fi
+
+    WALLET="$1"
+
     # Start setting up the container
-    apt update; apt install wget nano tmux less xz-utils systemctl -y
+    apt update; apt install tmux xz-utils -y
 
     echo "-------------------- APT PACKGES INSTALLED --------------------"
 
@@ -23,37 +26,22 @@ if [ ! -f "$FILE" ]; then
     rm onezerominer-linux/*
     rmdir onezerominer-linux
 
-    systemctl stop onstart.service
-    systemctl disable onstart.service
-
-    rm /etc/systemd/system/onstart.service
-
     echo "-------------------- PREVIOUS INSTALATIONS REMOVED --------------------"
 
     # Download miner zip file
     wget --no-cache https://github.com/OneZeroMiner/onezerominer/releases/download/v1.2.6/onezerominer-linux-1.2.6.tar.gz
     tar -xf onezerominer-linux-1.2.6.tar.gz; rm onezerominer-linux-1.2.6.tar.gz
 
-    echo "-------------------- MINER INSTALLED --------------------"
+    echo "-------------------- MINER PACKAGE INSTALLED --------------------"
 
     # Download onstart.sh file
-    wget --no-cache https://raw.githubusercontent.com/boshk0/HiveOS_GPU_tunner/main/onstart.sh; chmod +x onstart.sh
+    wget --no-cache -P $FILE https://raw.githubusercontent.com/boshk0/HiveOS_GPU_tunner/main/onstart.sh; chmod +x onstart.sh
 
-    # Download onstart.service file
-    wget --no-cache -P /etc/systemd/system https://raw.githubusercontent.com/boshk0/HiveOS_GPU_tunner/main/onstart.service
+    sed -i "s|WALLET=\[WALLET\]|WALLET=\"$WALLET\"|" $FILE
 
-    WALLET="$1"
-    sed -i "s|ExecStart=/usr/local/bin/onstart.sh \[WALLET\]|ExecStart=/usr/local/bin/onstart.sh $WALLET|" /etc/systemd/system/onstart.service
+    echo "-------------------- START SCRIPT INSTALLED --------------------"
 
-    # Reload systemd Manager Configuration
-    systemctl daemon-reload
+    bash $FILE
 
-    # Enable and start the service
-    systemctl enable onstart.service
-
-    echo "-------------------- ONSTART SERVICE INSTALLED --------------------"
-
-    systemctl start onstart.service
-
-    echo "-------------------- ONSTART SERVICE STARTED --------------------"
+    echo "-------------------- START SCRIPT EXECUTED --------------------"
 fi
