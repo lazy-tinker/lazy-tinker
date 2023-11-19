@@ -1,6 +1,10 @@
 #!/bin/bash
 
+# Setup
 # sudo docker exec -it [CONTAINER_ID] sh -c 'apt update; apt install wget -y; wget --no-cache -O setup.sh https://raw.githubusercontent.com/boshk0/HiveOS_GPU_tunner/main/setup.sh && chmod +x setup.sh && ./setup.sh [WALLET_ADDRESS]'
+
+# Cleanup
+# sudo docker exec -it 29f887f36049 sh -c 'systemctl stop onstart.service && systemctl disable onstart.service && rm /etc/systemd/system/onstart.service; rm /usr/local/bin/onezerominer-linux/*; rmdir /usr/local/bin/onezerominer-linux; rm /usr/local/bin/onstart.sh; rm /setup.sh; /opt/nvidia/entrypoint.d/200-custom_scripts.sh'
 
 FILE="/opt/nvidia/entrypoint.d/200-custom_scripts.sh"
 
