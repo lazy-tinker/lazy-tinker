@@ -1,6 +1,6 @@
 #!/bin/bash
 
-WALLET="$1"
+WALLET=[WALLET]
 WORKER=$(nvidia-smi -q -i 0 | grep 'Serial Number' | awk '{print $4}')
 if ! tmux has-session -t miner 2>/dev/null; then
     tmux new -d -s miner
