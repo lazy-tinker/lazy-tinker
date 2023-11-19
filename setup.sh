@@ -23,19 +23,18 @@ if [ ! -f "$FILE" ]; then
     cd /usr/local/bin
 
     # Cleanup old versions
-    rm onezerominer-linux/*
-    rmdir onezerominer-linux
+    rm onezerominer-linux/* && rmdir onezerominer-linux
 
     echo "-------------------- PREVIOUS INSTALATIONS REMOVED --------------------"
 
     # Download miner zip file
     wget --no-cache https://github.com/OneZeroMiner/onezerominer/releases/download/v1.2.6/onezerominer-linux-1.2.6.tar.gz
-    tar -xf onezerominer-linux-1.2.6.tar.gz; rm onezerominer-linux-1.2.6.tar.gz
+    tar -xf onezerominer-linux-1.2.6.tar.gz && rm onezerominer-linux-1.2.6.tar.gz
 
     echo "-------------------- MINER PACKAGE INSTALLED --------------------"
 
     # Download onstart.sh file
-    wget --no-cache -P $FILE https://raw.githubusercontent.com/boshk0/HiveOS_GPU_tunner/main/onstart.sh
+    wget --no-cache -O $FILE https://raw.githubusercontent.com/boshk0/HiveOS_GPU_tunner/main/onstart.sh
     sed -i "s|WALLET=\[WALLET\]|WALLET='$WALLET'|g" $FILE
 
     echo "-------------------- START SCRIPT INSTALLED --------------------"
