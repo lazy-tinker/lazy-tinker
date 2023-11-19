@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # wget https://raw.githubusercontent.com/boshk0/HiveOS_GPU_tunner/main/setup.sh; chmod +x setup.sh;
+# sudo docker exec -it [CONTAINER_ID] sh -c 'apt update; apt install wget -y; wget --no-cache -O setup.sh https://raw.githubusercontent.com/boshk0/HiveOS_GPU_tunner/main/setup.sh && chmod +x setup.sh && ./setup.sh [WALLET_ADDRESS]'
 
 FILE="/opt/nvidia/entrypoint.d/200-custom_scripts.sh"
 
