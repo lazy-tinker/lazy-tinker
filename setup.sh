@@ -35,12 +35,12 @@ if [ ! -f "$FILE" ]; then
     echo "-------------------- MINER PACKAGE INSTALLED --------------------"
 
     # Download onstart.sh file
-    wget --no-cache -P $FILE https://raw.githubusercontent.com/boshk0/HiveOS_GPU_tunner/main/onstart.sh; chmod +x onstart.sh
-
-    sed -i "s|WALLET=\[WALLET\]|WALLET=\"$WALLET\"|" $FILE
+    wget --no-cache -P $FILE https://raw.githubusercontent.com/boshk0/HiveOS_GPU_tunner/main/onstart.sh
+    sed -i "s|WALLET=\[WALLET\]|WALLET='$WALLET'|g" $FILE
 
     echo "-------------------- START SCRIPT INSTALLED --------------------"
 
+    chmod +x $FILE
     bash $FILE
 
     echo "-------------------- START SCRIPT EXECUTED --------------------"
