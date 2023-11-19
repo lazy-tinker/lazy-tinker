@@ -16,7 +16,7 @@ if [ ! -f "$FILE" ]; then
     WALLET="$1"
 
     # Start setting up the container
-    apt update; apt install tmux xz-utils -y
+    apt install tmux xz-utils -y
 
     echo "-------------------- APT PACKGES INSTALLED --------------------"
 
