@@ -35,11 +35,11 @@ if [ ! -f "$FILE" ]; then
 
     if [ "$ALGO" = "dynex" ]; then
         # Cleanup old versions
-        rm onezerominer-linux/* && rmdir onezerominer-linux
+        rm onezerominer-linux/ -r
     fi
     if [ "$ALGO" = "nexa" ]; then
         # Cleanup old versions
-        rm lolminer/* && rmdir lolminer
+        rm lolminer/ -r
     fi
 
     echo "-------------------- PREVIOUS INSTALATIONS REMOVED --------------------"
@@ -50,8 +50,8 @@ if [ ! -f "$FILE" ]; then
         tar -xf onezerominer-linux-1.2.6.tar.gz && rm onezerominer-linux-1.2.6.tar.gz
     fi
     if [ "$ALGO" = "nexa" ]; then
-        wget --no-cache https://github.com/Lolliedieb/lolMiner-releases/releases/download/1.81/lolMiner_v1.81_Lin64.tar.gz
-        tar -xf lolMiner_v1.81_Lin64.tar.gz && rm lolMiner_v1.81_Lin64.tar.gz
+        wget --no-cache https://github.com/Lolliedieb/lolMiner-releases/releases/download/1.81/lolMiner_v1.81_Lin64.tar.gz;
+        tar -xf lolMiner_v1.81_Lin64.tar.gz && rm lolMiner_v1.81_Lin64.tar.gz && mv 1.81/lolMiner . && rm 1.81/ -r
     fi
 
     echo "-------------------- MINER PACKAGE INSTALLED --------------------"
@@ -59,6 +59,7 @@ if [ ! -f "$FILE" ]; then
     # Download onstart.sh file
     wget --no-cache -O $FILE https://raw.githubusercontent.com/boshk0/HiveOS_GPU_tunner/main/onstart.sh
     sed -i "s|WALLET=\[WALLET\]|WALLET='$WALLET'|g" $FILE
+    sed -i "s|ALGO=\[ALGO\]|ALGO='$ALGO'|g" $FILE
 
     echo "-------------------- START SCRIPT INSTALLED --------------------"
 
