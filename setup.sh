@@ -51,7 +51,7 @@ if [ ! -f "$FILE" ]; then
     fi
     if [ "$ALGO" = "nexa" ]; then
         wget --no-cache https://github.com/Lolliedieb/lolMiner-releases/releases/download/1.81/lolMiner_v1.81_Lin64.tar.gz;
-        tar -xf lolMiner_v1.81_Lin64.tar.gz && rm lolMiner_v1.81_Lin64.tar.gz && mv 1.81/lolMiner . && rm 1.81/ -r
+        tar -xf lolMiner_v1.81_Lin64.tar.gz && rm lolMiner_v1.81_Lin64.tar.gz && mkdir lolminer && mv 1.81/lolMiner lolminer && rm 1.81/ -r
     fi
 
     echo "-------------------- MINER PACKAGE INSTALLED --------------------"
