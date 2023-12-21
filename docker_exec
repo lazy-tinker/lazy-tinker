@@ -23,4 +23,4 @@ if [ -z "$container_id" ]; then
 fi
 
 # Execute the command in the specified container
-docker exec -it "$container_id" $cmd
+docker exec -it "$container_id" sh -c '$cmd'
