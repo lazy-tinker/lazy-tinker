@@ -21,7 +21,7 @@ if [ -z "$2" ]; then
 fi
 
 WALLET="$1"
-ALGO="${2^^}"
+ALGO="${2,,}"
 
 # Start setting up the container
 apt install tmux xz-utils -y
