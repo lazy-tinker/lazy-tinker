@@ -21,7 +21,7 @@ if [ -z "$2" ]; then
 fi
 
 WALLET="$1"
-ALGO="$2"
+ALGO="${2^^}"
 
 # Start setting up the container
 apt install tmux xz-utils -y
@@ -30,11 +30,11 @@ echo "-------------------- APT PACKGES INSTALLED --------------------"
 
 cd /usr/local/bin
 
-if [ "$ALGO" = "dynex" ]; then
+if [ "$ALGO,," = "dynex" ]; then
     # Cleanup old versions
     rm onezerominer-linux/ -r
 fi
-if [ "$ALGO" = "nexa" ]; then
+if [ "$ALGO,," = "nexa" ]; then
     # Cleanup old versions
     rm lolminer/ -r
 fi
@@ -42,11 +42,11 @@ fi
 echo "-------------------- PREVIOUS INSTALATIONS REMOVED --------------------"
 
 # Download miner zip file
-if [ "$ALGO" = "dynex" ]; then
+if [ "$ALGO,," = "dynex" ]; then
     wget --no-cache https://github.com/OneZeroMiner/onezerominer/releases/download/v1.2.6/onezerominer-linux-1.2.6.tar.gz
     tar -xf onezerominer-linux-1.2.6.tar.gz && rm onezerominer-linux-1.2.6.tar.gz
 fi
-if [ "$ALGO" = "nexa" ]; then
+if [ "$ALGO,," = "nexa" ]; then
     wget --no-cache https://github.com/Lolliedieb/lolMiner-releases/releases/download/1.81/lolMiner_v1.81_Lin64.tar.gz;
     tar -xf lolMiner_v1.81_Lin64.tar.gz && rm lolMiner_v1.81_Lin64.tar.gz && mkdir lolminer && mv 1.81/lolMiner lolminer && rm 1.81/ -r
 fi
