@@ -24,7 +24,12 @@ WALLET="$1"
 ALGO="${2,,}"
 
 # Start setting up the container
-apt install tmux xz-utils -y
+if [ "${ALGO,,}" = "dynex" ]; then
+    apt install tmux xz-utils -y
+fi
+if [ "${ALGO,,}" = "nexa" ]; then
+    apt install tmux -y
+fi
 
 echo "-------------------- APT PACKGES INSTALLED --------------------"
 
