@@ -1,0 +1,45 @@
+nvtop
+htop
+bpytop
+
+# Show GPU statistics
+nvidia-smi -q
+
+# Set persitance mode
+sudo nvidia-smi -pm 1
+
+# Set power limit
+sudo nvidia-smi -pl 400
+
+# Lock core/memory clocks
+sudo nvidia-smi -lgc 2715
+sudo nvidia-smi -lmc 5001
+sudo nvidia-smi -lmc 10501
+
+# Set GPU Target temperature
+sudo nvidia-smi -gtt 65
+
+# Reset locked clocks
+sudo nvidia-smi -rgc
+sudo nvidia-smi -rmc
+
+# Docker cleanup
+docker system prune
+
+# List all containers with sizes
+sudo docker ps -as
+
+# VastAI machine ID
+cat /var/lib/vastai_kaalia/machine_id
+
+# Temporary listen on port
+pc -l 41001
+
+# Check if a port is open and port forwarding is working
+# https://portchecker.co/check-it
+
+# View Journal log (most recent)
+journalctl -e
+
+# Show total/available disk space
+df -h
