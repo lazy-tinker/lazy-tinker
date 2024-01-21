@@ -1,3 +1,5 @@
+# sudo wget -O setup_prometheus_exporters.sh https://raw.githubusercontent.com/boshk0/HiveOS_GPU_tunner/main/setup_prometheus_exporters.sh; sudo chmod +x setup_prometheus_exporters.sh; sudo ./setup_prometheus_exporters.sh
+
 mkdir tmp;
 cd tmp;
 
