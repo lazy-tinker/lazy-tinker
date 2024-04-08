@@ -1,0 +1,162 @@
+mkdir tmp;
+cd tmp;
+
+wget https://github.com/prometheus/node_exporter/releases/download/v1.7.0/node_exporter-1.7.0.linux-amd64.tar.gz;
+
+sudo tar xvfz node_exporter-*.*-amd64.tar.gz;
+
+sudo mv node_exporter-*.*-amd64/node_exporter /usr/local/bin/;
+
+sudo useradd -rs /bin/false node_exporter;
+
+cat << EOF | sudo tee /etc/systemd/system/node_exporter.service
+[Unit]
+Description=Node Exporter
+After=network.target
+
+[Service]
+User=node_exporter
+Group=node_exporter
+Type=simple
+ExecStart=/usr/local/bin/node_exporter
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+sudo systemctl daemon-reload;
+sudo systemctl start node_exporter;
+sudo systemctl enable node_exporter;
+sudo systemctl status node_exporter;
+
+cd ..
+sudo rm tmp -r
+
+#---------------------------------------------------------
+
+mkdir tmp;
+cd tmp;
+
+wget https://github.com/utkuozdemir/nvidia_gpu_exporter/releases/download/v1.2.0/nvidia_gpu_exporter_1.2.0_linux_x86_64.tar.gz;
+
+sudo tar xvfz nvidia_gpu_exporter*.*tar.gz;
+
+sudo mv nvidia_gpu_exporter /usr/local/bin/;
+
+sudo useradd -rs /bin/false nvidia_gpu_exporter;
+
+cat << EOF | sudo tee /etc/systemd/system/nvidia_gpu_exporter.service
+[Unit]
+Description=Nvidia GPU Exporter
+After=network-online.target
+
+[Service]
+Type=simple
+User=nvidia_gpu_exporter
+Group=nvidia_gpu_exporter
+ExecStart=/usr/local/bin/nvidia_gpu_exporter
+SyslogIdentifier=nvidia_gpu_exporter
+
+Restart=always
+RestartSec=1
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+sudo systemctl daemon-reload;
+sudo systemctl start nvidia_gpu_exporter;
+sudo systemctl enable nvidia_gpu_exporter;
+sudo systemctl status nvidia_gpu_exporter;
+
+cd ..
+sudo rm tmp -r
+
+
+#---------------------------------------------------------
+
+
+cat << 'EOF' | sudo tee /usr/local/bin/nvidia-oc-monitor
+#!/bin/bash
+
+# Define an associative array for process settings
+declare -A processSettings
+processSettings[pow-miner-cuda]=810 # Cuda miner for GRAM algo (it coule be different!!)
+
+time_interval=60 # Seconds between each loop
+oc_change_delay=1 # Delay between resetting and setting OC
+
+# Function to set memory overclocking
+set_memory_oc() {
+    local process=$1
+    local mem_clock=$2
+
+    echo "$(date): Setting memory OC for $process to $mem_clock"
+    nvidia-smi -lmc $mem_clock
+}
+
+# Function to reset overclocking
+reset_oc() {
+    echo "$(date): Resetting OC to default"
+    nvidia-smi -rgc
+    nvidia-smi -rmc
+
+    nvidia-smi -pm 1           # Persistance mode
+    nvidia-smi -pl 400         # Power limit
+    nvidia-smi -gtt 65         # Temperature limit
+}
+
+# Cleanup function for graceful shutdown
+cleanup() {
+    echo "$(date): Script is stopping, resetting OC to default..."
+    reset_oc
+    exit 0
+}
+
+# Trap SIGINT and SIGTERM
+trap cleanup SIGINT SIGTERM
+
+# Main loop
+while true; do
+    # Reset OC settings at the start of each loop
+    reset_oc
+
+    for process in "${!processSettings[@]}"; do
+        if pgrep -x "$process" > /dev/null; then
+            echo "$process is running"
+
+            mem_clock_setting=${processSettings[$process]}
+            echo "OC Setting for $process: $mem_clock_setting"
+
+            # Give GPU time between each OC settings change (reset/set)
+            sleep $oc_change_delay
+
+            set_memory_oc $process ${processSettings[$process]}
+            break # Exit the loop after setting OC for the first running process
+        fi
+    done
+
+    sleep $time_interval
+done
+EOF
+
+cat << 'EOF' | sudo tee /etc/systemd/system/nvidia-oc-monitor.service
+[Unit]
+Description=NVIDIA GPU Overclock Monitoring Service
+After=graphical.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/nvidia-oc-monitor
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+sudo chmod +x /usr/local/bin/nvidia-oc-monitor
+
+sudo systemctl enable nvidia-oc-monitor;
+sudo systemctl start nvidia-oc-monitor;
+#sudo systemctl status nvidia-oc-monitor;
+
