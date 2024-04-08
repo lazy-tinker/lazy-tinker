@@ -82,6 +82,7 @@ cat << 'EOF' | sudo tee /usr/local/bin/nvidia-oc-monitor
 # Define an associative array for process settings
 declare -A processSettings
 processSettings[pow-miner-cuda]=810 # Cuda miner for GRAM algo (it coule be different!!)
+processSettings[qli-miner]=5001 # Miner for QUBIC algo
 
 time_interval=60 # Seconds between each loop
 oc_change_delay=1 # Delay between resetting and setting OC
