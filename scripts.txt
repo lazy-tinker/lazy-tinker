@@ -99,12 +99,14 @@ set_memory_oc() {
 # Function to reset overclocking
 reset_oc() {
     echo "$(date): Resetting OC to default"
-    nvidia-smi -rgc
-    nvidia-smi -rmc
+    {
+        nvidia-smi -rgc
+        nvidia-smi -rmc
 
-    nvidia-smi -pm 1           # Persistance mode
-    nvidia-smi -pl 400         # Power limit
-    nvidia-smi -gtt 65         # Temperature limit
+        nvidia-smi -pm 1           # Persistance mode
+        nvidia-smi -pl 400         # Power limit
+        nvidia-smi -gtt 65         # Temperature limit
+    } > /dev/null 2>&1
 }
 
 # Cleanup function for graceful shutdown
@@ -124,11 +126,6 @@ while true; do
 
     for process in "${!processSettings[@]}"; do
         if pgrep -x "$process" > /dev/null; then
-            echo "$process is running"
-
-            mem_clock_setting=${processSettings[$process]}
-            echo "OC Setting for $process: $mem_clock_setting"
-
             # Give GPU time between each OC settings change (reset/set)
             sleep $oc_change_delay
 
