@@ -93,7 +93,9 @@ set_memory_oc() {
     local mem_clock=$2
 
     echo "$(date): Setting memory OC for $process to $mem_clock"
-    nvidia-smi -lmc $mem_clock
+    {
+        nvidia-smi -lmc $mem_clock
+    } > /dev/null 2>&1
 }
 
 # Function to reset overclocking
