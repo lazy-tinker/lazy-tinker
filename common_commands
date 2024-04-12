@@ -41,5 +41,18 @@ pc -l 41001
 # View Journal log (most recent)
 journalctl -e
 
+# Show GPU related errors
+journalctl -o short-precise -k -b -1 | grep -E "NVRM|AER|fallen"
+
+# Show container logs
+journalctl CONTAINER_NAME=$(docker ps --format "{{.Names}}" | head -1) -f
+
 # Show total/available disk space
 df -h
+
+# Disable auto updates
+sudo nano /etc/apt/apt.conf.d/20auto-upgrades
+#APT::Periodic::Update-Package-Lists "0";
+#APT::Periodic::Download-Upgradeable-Packages "0";
+#APT::Periodic::AutocleanInterval "0";
+#APT::Periodic::Unattended-Upgrade "0";
