@@ -143,7 +143,8 @@ EOF
 cat << 'EOF' | sudo tee /etc/systemd/system/nvidia-oc-monitor.service
 [Unit]
 Description=NVIDIA GPU Overclock Monitoring Service
-After=graphical.target
+Requires=nvidia-persistenced.service
+After=nvidia-persistenced.service
 
 [Service]
 Type=simple
@@ -158,5 +159,5 @@ sudo chmod +x /usr/local/bin/nvidia-oc-monitor
 
 sudo systemctl enable nvidia-oc-monitor;
 sudo systemctl start nvidia-oc-monitor;
-#sudo systemctl status nvidia-oc-monitor;
+sudo systemctl status nvidia-oc-monitor;
 
