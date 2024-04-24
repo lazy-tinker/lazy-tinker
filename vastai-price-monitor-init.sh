@@ -95,7 +95,7 @@ monitor_prices() {
         
         echo Next price update will be after $(($update_interval/60)) minutes
         sleep $update_interval
-    do
+    done
 }
 
 monitor_prices
