@@ -54,7 +54,7 @@ update_vastai_price() {
 
     # Check if the price is below the minimum threshold
     if (( $(echo "$price_gpu < $min_price" | bc -l) )); then
-        echo "Adjusted price too low, skipping price update"
+        echo "The price is below the minimum threshold, skipping listing update"
         return
     fi
 
