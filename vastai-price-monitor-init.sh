@@ -110,6 +110,7 @@ After=nvidia-persistenced.service
 
 [Service]
 Type=simple
+User=miner
 ExecStart=/usr/local/bin/vastai-price-monitor
 RemainAfterExit=yes
 
