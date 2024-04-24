@@ -1,3 +1,5 @@
+#wget -qO- https://raw.githubusercontent.com/boshk0/HiveOS_GPU_tunner/main/nvidia-oc-monitor-init.sh | bash
+
 cat << 'EOF' | sudo tee /usr/local/bin/nvidia-oc-monitor
 #!/bin/bash
 
