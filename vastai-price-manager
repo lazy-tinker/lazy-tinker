@@ -7,7 +7,7 @@ min_price=0.4
 records=3
 
 get_available_machines() {
-    readarray -t available_machines < <(vastai search offers 'host_id='$host_id' rentable=False' -n --disable-bundling | awk 'NR>1 {gsub(/x$/, "", $3); print $17,>
+    readarray -t available_machines < <(vastai search offers 'host_id='$host_id' rentable=True' -n --disable-bundling | awk 'NR>1 {gsub(/x$/, "", $3); print $17,>
 }
 
 retrieve_average_price() {
