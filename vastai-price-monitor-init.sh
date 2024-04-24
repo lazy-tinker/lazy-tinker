@@ -1,5 +1,9 @@
+#wget -qO- https://raw.githubusercontent.com/boshk0/HiveOS_GPU_tunner/main/vastai-price-monitor-init.sh | bash
+
+cat << 'EOF' | sudo tee /usr/local/bin/vastai-price-monitor
 #!/bin/bash
 
+update_interval=3600 # 60 minutes
 host_id=81587
 end_date='7 May 2024 15:00' # Subtracted 3 hours for Local time
 discount=0.01
@@ -46,7 +50,7 @@ retrieve_average_price() {
 }
 
 # Set adjusted price
-update_vastai_price() {
+update_machine_price() {
     local mach_id=$1
     local n_gpus=$2
     local price_gpu=$3
@@ -62,7 +66,7 @@ update_vastai_price() {
     vastai list machine $mach_id --price_gpu $price_gpu --price_disk 0.4 --price_inetu 0.0048828125 --price_inetd 0.0048828125 --discount_rate 0 --min_chunk $n_gp>
 }
 
-set_prices() {
+update_prices() {
     local mach_id
     local n_gpus
 
@@ -73,13 +77,48 @@ set_prices() {
         read mach_id n_gpus <<< "$i"
 
         retrieve_average_price $n_gpus
+
         sleep 5
 
-        update_vastai_price $mach_id $n_gpus $adjusted_price
+        update_machine_price $mach_id $n_gpus $adjusted_price
+
         sleep 5
     done
 }
 
-get_available_machines
+monitor_prices() {
+    while true
+    do
+        get_available_machines
+        
+        update_prices
+        
+        echo Next price update will be after $(($update_interval/60)) minutes
+        sleep $update_interval
+    do
+}
 
-set_prices
+monitor_prices
+
+EOF
+
+cat << 'EOF' | sudo tee /etc/systemd/system/vastai-price-monitor.service
+[Unit]
+Description=VastAI Price Monitoring Service
+Requires=nvidia-persistenced.service
+After=nvidia-persistenced.service
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/vastai-price-monitor
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+sudo chmod +x /usr/local/bin/vastai-price-monitor
+
+sudo systemctl enable vastai-price-monitor;
+sudo systemctl restart vastai-price-monitor;
+sudo systemctl status vastai-price-monitor;
