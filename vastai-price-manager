@@ -1,15 +1,18 @@
 #!/bin/bash
 
-machine_id=16657
 host_id=81587
 end_date='7 May 2024 15:00' # Subtracted 3 hours for Local time
-num_gpus=4
 discount=0.01
 records=3
 
+get_available_machines() {
+    readarray -t available_machines < <(vastai search offers 'host_id='$host_id' rentable=False' -n --disable-bundling | awk 'NR>1 {gsub(/x$/, "", $3); print $17,>}
+
 retrieve_average_price() {
+    local n_gpus=$1
+
     # Set the search criteria for available offers
-    search_criteria="gpu_name=RTX_4090 num_gpus="$num_gpus" host_id!="$host_id" inet_up>=100 reliability>=0.95 duration>3"
+    search_criteria="gpu_name=RTX_4090 num_gpus="$n_gpus" host_id!="$host_id" inet_up>=100 reliability>=0.90 duration>3"
 
     #vastai search offers "$search_criteria" -o dph
 
@@ -28,24 +31,46 @@ retrieve_average_price() {
             count++
         }
         END {
-            printf total/count/'$num_gpus'
+            printf total/count/'$n_gpus'
         }'
     )
 
     adjusted_price=$(printf "%.6f" $(echo "$average_price - $discount" | bc -l))
-    total_price_avg=$(printf "%.6f" $(echo "$average_price * $num_gpus" | bc -l))
-    total_price_adj=$(printf "%.6f" $(echo "$adjusted_price * $num_gpus" | bc -l))
+    total_price_avg=$(printf "%.6f" $(echo "$average_price * $n_gpus" | bc -l))
+    total_price_adj=$(printf "%.6f" $(echo "$adjusted_price * $n_gpus" | bc -l))
 
-    echo "Average Price: $average_price, Total Price: $(echo "$average_price * $num_gpus" | bc -l)"
-    echo "Adjusted Price: $adjusted_price, Total Price: $(echo "$adjusted_price * $num_gpus" | bc -l)"
+    echo "Average Price: $average_price, Total Price: $total_price_avg"
+    echo "Adjusted Price: $adjusted_price, Total Price: $total_price_adj"
 }
 
 # Set adjusted price
 update_vastai_price() {
-    local price_gpu=$1
-    unix_date=$(date -d "$end_date" +%s)
-    vastai list machine $machine_id --price_gpu $price_gpu --price_disk 0.4 --price_inetu 0.0048828125 --price_inetd 0.0048828125 --discount_rate 0 --min_chunk $num_gpus --end_date $unix_date
+    local mach_id=$1
+    local n_gpus=$2
+    local price_gpu=$3
+    local unix_date=$(date -d "$end_date" +%s)
+
+    # Set price in VastAi
+    vastai list machine $mach_id --price_gpu $price_gpu --price_disk 0.4 --price_inetu 0.0048828125 --price_inetd 0.0048828125 --discount_rate 0 --min_chunk $n_gp>}
+
+set_prices() {
+    local mach_id
+    local n_gpus
+
+    # Iterating over the array
+    for i in "${available_machines[@]}"
+    do
+        # Splitting each element into number and status
+        read mach_id n_gpus <<< "$i"
+
+        retrieve_average_price $n_gpus
+        sleep 5
+
+        update_vastai_price $mach_id $n_gpus $adjusted_price
+        sleep 5
+    done
 }
 
-retrieve_average_price
-update_vastai_price $adjusted_price
+get_available_machines
+
+set_prices
