@@ -1,0 +1,66 @@
+cat << 'EOF' | sudo tee /usr/local/bin/nvidia-price-monitor
+#!/bin/bash
+
+machine_id=16657
+host_id=81587
+num_gpus=4
+discount=0.01
+records=3
+
+# Set the search criteria for available offers
+search_criteria="gpu_name=RTX_4090 num_gpus="$num_gpus" host_id!="$host_id" inet_up>=100 reliability>=0.97"
+
+#vastai search offers "$search_criteria" -o dph #--disable-bundling
+
+# Execute the vastai search with the given criteria
+# Sort offers by dollars per hour and disable bundling
+# then, pass the output through awk for processing
+average_price=$(vastai search offers "$search_criteria" -o dph | awk '
+    BEGIN {
+        # Initialize variables to store the total and count of relevant offerings
+        total=0
+        count=0
+    }
+    NR>1 && NR<='$((records+1))' {
+        # Take first few records, accumulate the Price values and increment count
+        total += $9
+        count++
+    }
+    END {
+        printf total/count/'$num_gpus'
+    }'
+)
+
+adjusted_price=$(printf "%.6f" $(echo "$average_price - $discount" | bc -l))
+total_price_avg=$(printf "%.6f" $(echo "$average_price * $num_gpus" | bc -l))
+total_price_adj=$(printf "%.6f" $(echo "$adjusted_price * $num_gpus" | bc -l))
+
+echo "Average Price: $average_price, Total Price: $(echo "$average_price * $num_gpus" | bc -l)"
+echo "Adjusted Price: $adjusted_price, Total Price: $(echo "$adjusted_price * $num_gpus" | bc -l)"
+
+# Set adjusted price
+
+
+
+EOF
+
+cat << 'EOF' | sudo tee /etc/systemd/system/nvidia-price-monitor.service
+[Unit]
+Description=VastAI Pricing Monitoring Service
+Requires=nvidia-persistenced.service
+After=nvidia-persistenced.service
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/nvidia-price-monitor
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+sudo chmod +x /usr/local/bin/nvidia-price-monitor
+
+sudo systemctl enable nvidia-price-monitor;
+sudo systemctl start nvidia-price-monitor;
+sudo systemctl status nvidia-price-monitor;
