@@ -3,6 +3,7 @@
 host_id=81587
 end_date='7 May 2024 15:00' # Subtracted 3 hours for Local time
 discount=0.01
+min_price=0.4
 records=3
 
 get_available_machines() {
@@ -50,6 +51,12 @@ update_vastai_price() {
     local n_gpus=$2
     local price_gpu=$3
     local unix_date=$(date -d "$end_date" +%s)
+
+    # Check if the price is below the minimum threshold
+    if (( $(echo "$price_gpu < $min_price" | bc -l) )); then
+        echo "Adjusted price too low, skipping price update"
+        return
+    fi
 
     # Set price in VastAi
     vastai list machine $mach_id --price_gpu $price_gpu --price_disk 0.4 --price_inetu 0.0048828125 --price_inetd 0.0048828125 --discount_rate 0 --min_chunk $n_gp>
