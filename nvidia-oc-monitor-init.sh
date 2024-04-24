@@ -32,6 +32,17 @@ load_config_from_url() {
     fi
 }
 
+# Function to set memory overclocking
+set_memory_oc() {
+    local process=$1
+    local mem_clock=$2
+
+    echo "$(date): Setting memory OC for $process to $mem_clock"
+    {
+        nvidia-smi -lmc $mem_clock
+    } > /dev/null 2>&1
+}
+
 # Function to reset overclocking
 reset_oc() {
     echo "$(date): Resetting OC to default"
