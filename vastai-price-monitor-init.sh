@@ -11,7 +11,7 @@ min_price=0.4
 records=3
 
 get_available_machines() {
-    readarray -t available_machines < <(vastai search offers 'host_id='$host_id' rentable=True' -n --disable-bundling | awk 'NR>1 {gsub(/x$/, "", $3); print $17,>
+    readarray -t available_machines < <(vastai search offers 'host_id='$host_id' rentable=True' -n --disable-bundling | awk 'NR>1 {gsub(/x$/, "", $3); print $17, $3}')
 }
 
 retrieve_average_price() {
@@ -63,7 +63,7 @@ update_machine_price() {
     fi
 
     # Set price in VastAi
-    vastai list machine $mach_id --price_gpu $price_gpu --price_disk 0.4 --price_inetu 0.0048828125 --price_inetd 0.0048828125 --discount_rate 0 --min_chunk $n_gp>
+    vastai list machine $mach_id --price_gpu $price_gpu --price_disk 0.4 --price_inetu 0.0048828125 --price_inetd 0.0048828125 --discount_rate 0 --min_chunk $n_gpus --end_date $unix_date
 }
 
 update_prices() {
@@ -90,9 +90,9 @@ monitor_prices() {
     while true
     do
         get_available_machines
-        
+
         update_prices
-        
+
         echo Next price update will be after $(($update_interval/60)) minutes
         sleep $update_interval
     done
