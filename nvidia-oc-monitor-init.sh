@@ -108,5 +108,5 @@ EOF
 sudo chmod +x /usr/local/bin/nvidia-oc-monitor
 
 sudo systemctl enable nvidia-oc-monitor;
-sudo systemctl start nvidia-oc-monitor;
+sudo systemctl restart nvidia-oc-monitor;
 sudo systemctl status nvidia-oc-monitor;
