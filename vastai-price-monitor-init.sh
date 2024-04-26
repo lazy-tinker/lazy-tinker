@@ -18,7 +18,7 @@ retrieve_average_price() {
     local n_gpus=$1
 
     # Set the search criteria for available offers
-    search_criteria="gpu_name=RTX_4090 num_gpus="$n_gpus" host_id!="$host_id" inet_up>=100 reliability>=0.90 duration>3"
+    search_criteria="gpu_name=RTX_4090 num_gpus="$n_gpus" host_id!="$host_id" inet_up>=100 reliability>=0.95 duration>3"
 
     #vastai search offers "$search_criteria" -o dph
 
