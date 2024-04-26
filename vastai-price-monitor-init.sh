@@ -58,7 +58,7 @@ update_machine_price() {
 
     # Check if the price is below the minimum threshold
     if (( $(echo "$price_gpu < $min_price" | bc -l) )); then
-        echo "The price is below the minimum threshold, skipping listing update"
+        echo "The price is below the minimum threshold of $min_price, skipping listing update"
         return
     fi
 
