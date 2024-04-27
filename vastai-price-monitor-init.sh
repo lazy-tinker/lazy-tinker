@@ -7,7 +7,7 @@ update_interval=3600 # 60 minutes
 host_id=81587
 end_date='7 May 2024 15:00' # Subtracted 3 hours for Local time
 discount=0.01
-min_price=0.497
+min_price=0.45
 records=3
 
 get_available_machines() {
