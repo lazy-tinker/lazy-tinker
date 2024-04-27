@@ -11,6 +11,7 @@ declare -A processSettings
 processSettings[pow-miner-cuda]=810 # Cuda miner for GRAM algo (it coule be different!!)
 processSettings[qli-runner]=5001 # Miner for QUBIC algo
 processSettings[xelis-taxminer]=5001 # Miner for XEL cryptocurrency
+processSettings[hashcat.bin]=5001 # Hashcat client
 
 time_interval=60 # Seconds between each loop
 oc_change_delay=1 # Delay between resetting and setting OC
