@@ -44,11 +44,11 @@ journalctl -e
 # Show GPU related errors
 journalctl -o short-precise -k -b -1 | grep -E "NVRM|AER|fallen"
 
-# Take snapshot of a tmux session
-docker exec -it $(docker ps --format "{{.Names}}" | head -1) tmux capture-pane -p
-
 # Show container logs
 journalctl CONTAINER_NAME=$(docker ps --format "{{.Names}}" | head -1) -f
+
+# Take snapshot of a tmux session
+docker exec -it $(docker ps --format "{{.Names}}" | head -1) tmux capture-pane -p
 
 # Show total/available disk space
 df -h
