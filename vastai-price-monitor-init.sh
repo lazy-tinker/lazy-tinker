@@ -12,6 +12,11 @@ records=3
 
 get_available_machines() {
     readarray -t available_machines < <(vastai search offers 'host_id='$host_id' rentable=True' -n --disable-bundling | awk 'NR>1 {gsub(/x$/, "", $3); print $17, $3}')
+
+    # Check if there are any elements in the array
+    if [ ${#available_machines[@]} -gt 0 ]; then
+        echo "${#available_machines[@]} machines for update found"
+    fi
 }
 
 retrieve_average_price() {
