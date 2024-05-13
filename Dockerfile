@@ -23,5 +23,6 @@ CMD ["/bin/bash", "-c", "sleep infinity"]
 
 # How to use:
 # curl -o Dockerfile https://raw.githubusercontent.com/boshk0/HiveOS_GPU_tunner/main/Dockerfile
+# replace WALLET_ADDRESS and YOUR_ALGO
 # docker build -t miner .
 # docker run --rm --name miner -d --gpus all miner
