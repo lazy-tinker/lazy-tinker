@@ -20,3 +20,8 @@ RUN wget --no-cache -O setup.sh https://raw.githubusercontent.com/boshk0/HiveOS_
 RUN ./setup.sh ${WALLET_ADDRESS} ${ALGO}
 
 CMD ["/bin/bash", "-c", "sleep infinity"]
+
+# How to use:
+# curl -o Dockerfile https://raw.githubusercontent.com/boshk0/HiveOS_GPU_tunner/main/Dockerfile
+# docker build -t miner .
+# docker run --rm --name miner -d --gpus all miner
