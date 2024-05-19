@@ -19,7 +19,10 @@ oc_change_delay=1 # Delay between resetting and setting OC
 
 # Function to fetch and load settings from the configuration URL
 load_config_from_url() {
-    if curl -f -s "$configFileUrl" -o "/tmp/processSettings.conf"; then
+    # Generate a unique URL to prevent caching (using the current timestamp)
+    uniqueUrl="${configFileUrl}?$(date +%s)"
+    
+    if curl -f -s "$uniqueUrl" -o "/tmp/processSettings.conf"; then
         while IFS='=' read -r key value; do
             # Trim leading and trailing spaces
             key=$(echo $key | xargs)
