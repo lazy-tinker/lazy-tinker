@@ -1,3 +1,5 @@
+# wget -O common_commands https://raw.githubusercontent.com/boshk0/HiveOS_GPU_tunner/main/common_commands
+
 nvtop
 htop
 bpytop
