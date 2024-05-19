@@ -6,13 +6,14 @@ cat << 'EOF' | sudo tee /usr/local/bin/nvidia-oc-monitor
 # Configuration file URL
 configFileUrl="https://raw.githubusercontent.com/boshk0/HiveOS_GPU_tunner/main/nvidia-oc-monitor.conf"
 
-# Define an associative array for process settings
+# Define an associative array for process settings with arguments, memory, and core clocks
 declare -A processSettings
-processSettings[pow-miner-cuda]=810 # Cuda miner for GRAM algo (it coule be different!!)
-processSettings[qli-runner]=5001 # Miner for QUBIC algo
-processSettings[xelis-taxminer]=5001 # Miner for XEL cryptocurrency
-processSettings[hashcat.bin]=5001 # Hashcat client
-
+processSettings["pow-miner-cuda,"]="mem_clock=810" # Miner for GRAM algo
+processSettings["qli-runner,"]="mem_clock=5001" # Miner for QUBIC algo
+processSettings["xelis-taxminer,"]="mem_clock=5001" # Miner for XEL algo
+processSettings["hashcat.bin,"]="mem_clock=5001" # Hashcat password cracker
+processSettings["lolMiner,--algo TON "]="mem_clock=810,code_clock=2280" # Miner for TON algo
+ 
 time_interval=60 # Seconds between each loop
 oc_change_delay=1 # Delay between resetting and setting OC
 
@@ -35,15 +36,41 @@ load_config_from_url() {
     fi
 }
 
-# Function to set memory overclocking
-set_memory_oc() {
+# Function to set overclocking
+set_oc() {
     local process=$1
-    local mem_clock=$2
+    local process_arg=$2
+    local settings=$3
 
-    echo "$(date): Setting memory OC for $process to $mem_clock"
-    {
-        nvidia-smi -lmc $mem_clock
-    } > /dev/null 2>&1
+    local mem_clock core_clock
+
+    # Parse the settings
+    IFS=',' read -ra kvpairs <<< "$settings"
+    for kv in "${kvpairs[@]}"; do
+        IFS='=' read -r key value <<< "$kv"
+        case "$key" in
+            mem_clock)
+                mem_clock=$value
+                ;;
+            core_clock)
+                core_clock=$value
+                ;;
+        esac
+    done
+
+    if [[ -n "$mem_clock" ]]; then
+        echo "$(date): Setting memory OC for $process (arg: $process_arg) to $mem_clock"
+        {
+            nvidia-smi -lmc $mem_clock
+        } > /dev/null 2>&1
+    fi
+
+    if [[ -n "$core_clock" ]]; then
+        echo "$(date): Setting core OC for $process (arg: $process_arg) to $core_clock"
+        {
+            nvidia-smi -lgc $core_clock
+        } > /dev/null 2>&1
+    fi
 }
 
 # Function to reset overclocking
@@ -53,7 +80,7 @@ reset_oc() {
         nvidia-smi -rgc
         nvidia-smi -rmc
 
-        nvidia-smi -pm 1           # Persistance mode
+        nvidia-smi -pm 1           # Persistence mode
         nvidia-smi -pl 400         # Power limit
         nvidia-smi -gtt 65         # Temperature limit
     } > /dev/null 2>&1
@@ -77,13 +104,28 @@ while true; do
     # Reset OC settings at the start of each loop
     reset_oc
 
-    for process in "${!processSettings[@]}"; do
-        if pgrep -x "$process" > /dev/null; then
-            # Give GPU time between each OC settings change (reset/set)
-            sleep $oc_change_delay
+    for entry in "${!processSettings[@]}"; do
+        IFS=',' read -r process process_arg <<< "$entry"
+        settings=${processSettings["$entry"]}
 
-            set_memory_oc $process ${processSettings[$process]}
-            break # Exit the loop after setting OC for the first running process
+        if [[ -z "$process_arg" ]]; then
+            # Handle processes without specific arguments
+            if pgrep -x "$process" > /dev/null; then
+                # Give GPU time between each OC settings change (reset/set)
+                sleep $oc_change_delay
+
+                set_oc $process "" "${settings}"
+                break # Exit the loop after setting OC for the first running process
+            fi
+        else
+            # Handle processes with specific arguments
+            if pgrep -if "$process.*$process_arg" > /dev/null; then
+                # Give GPU time between each OC settings change (reset/set)
+                sleep $oc_change_delay
+
+                set_oc $process "$process_arg" "${settings}"
+                break # Exit the loop after setting OC for the first running process
+            fi
         fi
     done
 
