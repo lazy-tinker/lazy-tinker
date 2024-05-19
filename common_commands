@@ -50,6 +50,9 @@ journalctl CONTAINER_NAME=$(docker ps --format "{{.Names}}" | head -1) -f
 # Take snapshot of a tmux session
 docker exec -it $(docker ps --format "{{.Names}}" | head -1) tmux capture-pane -p
 
+# Get GPU vendor
+lspci -vnn | grep VGA -A 12 | grep "Subsystem"
+
 # Cleanup docker images excluding the most common
 docker rmi $(sudo docker image ls | grep -Ev "pytorch/pytorch.*|amazonaws.*|nvidia/cuda.*|ubuntu.*|runpod/stable-diffusion.*" | awk 'NR>1 {print $3}')
 docker builder prune -f
