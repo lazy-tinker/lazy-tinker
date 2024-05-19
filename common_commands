@@ -50,6 +50,9 @@ journalctl CONTAINER_NAME=$(docker ps --format "{{.Names}}" | head -1) -f
 # Take snapshot of a tmux session
 docker exec -it $(docker ps --format "{{.Names}}" | head -1) tmux capture-pane -p
 
+# Query local API hosted in container
+docker exec -it $(docker ps --format "{{.Names}}" | head -1) wget -O - http://localhost:4444
+
 # Get GPU vendor
 lspci -vnn | grep VGA -A 12 | grep "Subsystem"
 
