@@ -52,6 +52,9 @@ journalctl CONTAINER_NAME=$(docker ps --format "{{.Names}}" | head -1) -f
 # Take snapshot of a tmux session
 docker exec -it $(docker ps --format "{{.Names}}" | head -1) tmux capture-pane -p
 
+# Take snapshot of a screen session
+docker exec -it $(docker ps --format "{{.Names}}" | head -1) bash -c 'sid=$(screen -ls | awk "/\t/ {print \$1}"); screen -S "$sid" -X hardcopy -h /tmp/.x; cat /tmp/.x; rm /tmp/.x'
+
 # Query local API hosted in container
 docker exec -it $(docker ps --format "{{.Names}}" | head -1) wget -O - http://localhost:4444
 
