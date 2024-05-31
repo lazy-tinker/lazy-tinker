@@ -35,7 +35,7 @@ sudo docker ps -as
 cat /var/lib/vastai_kaalia/machine_id
 
 # Temporary listen on port
-pc -l 41001
+nc -l 41001
 
 # Check if a port is open and port forwarding is working
 # https://portchecker.co/check-it
