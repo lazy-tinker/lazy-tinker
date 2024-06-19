@@ -11,8 +11,8 @@ declare -A processSettings
 processSettings["pow-miner-cuda,"]="mem_clock=810" # Miner for GRAM algo
 processSettings["qli-runner,"]="mem_clock=5001" # Miner for QUBIC algo
 processSettings["xelis-taxminer,"]="mem_clock=5001" # Miner for XEL algo
-processSettings["hashcat.bin,"]="mem_clock=5001" # Hashcat password cracker
-processSettings["lolMiner,--algo TON "]="mem_clock=810,code_clock=2280" # Miner for TON algo
+processSettings["hashcat,"]="mem_clock=5001" # Hashcat password cracker
+processSettings["lolMiner,--algo TON "]="mem_clock=810,code_clock=2340" # Miner for TON algo
  
 time_interval=60 # Seconds between each loop
 oc_change_delay=1 # Delay between resetting and setting OC
