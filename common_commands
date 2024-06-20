@@ -59,7 +59,7 @@ docker exec -it $(docker ps --format "{{.Names}}" | head -1) bash -c 'sid=$(scre
 docker exec -it $(docker ps --format "{{.Names}}" | head -1) wget -O - http://localhost:4444
 
 # Get GPU vendor
-lspci -vnn | grep VGA -A 12 | grep "Subsystem"
+lspci -vnn | grep VGA -A 11 | grep "Subsystem"
 
 # Cleanup docker images excluding the most common
 docker rmi $(sudo docker image ls | grep -Ev "pytorch/pytorch.*|amazonaws.*|nvidia/cuda.*|ubuntu.*|runpod/stable-diffusion.*" | awk 'NR>1 {print $3}')
