@@ -45,6 +45,7 @@ journalctl -e
 
 # Show GPU related errors
 journalctl -o short-precise -k -b -1 | grep -E "NVRM|AER|fallen"
+sudo dmesg -T | grep -E "NVRM|AER|fallen"
 
 # Show container logs
 journalctl CONTAINER_NAME=$(docker ps --format "{{.Names}}" | head -1) -f
